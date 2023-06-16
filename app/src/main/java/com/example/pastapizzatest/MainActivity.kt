@@ -4,43 +4,81 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.pastapizzatest.ui.theme.PastaPizzaTestTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.pastapizzatest.presentation.Screen
+import com.example.pastapizzatest.presentation.screens.CartScreen
+import com.example.pastapizzatest.presentation.screens.ProfileScreen
+import com.example.pastapizzatest.presentation.screens.common_ui.MyBottomNavigation
+import com.example.pastapizzatest.presentation.screens.menu.MenuScreen
+import com.example.pastapizzatest.presentation.theme.PastaPizzaTestTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PastaPizzaTestTheme {
-                // A surface container using the 'background' color from the theme
+            PastaPizzaTestTheme(darkTheme = false) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.primaryContainer
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    val bottomNavigationItems = listOf(
+                        Screen.Menu,
+                        Screen.Profile,
+                        Screen.Cart,
+                    )
+                    Scaffold(
+                        bottomBar = {
+                            MyBottomNavigation(
+                                navController = navController,
+                                bottomNavigationItems = bottomNavigationItems
+                            )
+                        },
+                    ) { contentPadding ->
+                        NavHost(
+                            navController = navController,
+                            startDestination = Screen.Menu.route
+                        ) {
+                            val screenModifier = Modifier.padding(
+                                top = contentPadding.calculateTopPadding(),
+                                bottom = contentPadding.calculateBottomPadding()
+                            )
+                            composable(
+                                route = Screen.Menu.route
+                            ) {
+                                MenuScreen(
+                                    modifier = screenModifier
+                                )
+                            }
+                            composable(
+                                route = Screen.Profile.route,
+                            ) {
+                                ProfileScreen(
+                                    modifier = screenModifier
+                                )
+                            }
+                            composable(
+                                route = Screen.Cart.route
+                            ) {
+                                CartScreen(
+                                    modifier = screenModifier
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PastaPizzaTestTheme {
-        Greeting("Android")
     }
 }
