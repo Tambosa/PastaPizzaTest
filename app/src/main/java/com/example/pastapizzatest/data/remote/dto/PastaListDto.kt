@@ -1,4 +1,4 @@
-package com.example.pastapizzatest.data.dto
+package com.example.pastapizzatest.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 

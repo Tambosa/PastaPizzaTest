@@ -1,6 +1,6 @@
-package com.example.pastapizzatest.data
+package com.example.pastapizzatest.data.remote
 
-import com.example.pastapizzatest.data.dto.PastaListDto
+import com.example.pastapizzatest.data.remote.dto.PastaListDto
 import retrofit2.http.GET
 
 interface PastaApi {
