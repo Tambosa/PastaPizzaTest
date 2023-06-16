@@ -16,11 +16,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pastapizzatest.presentation.Screen
 import com.example.pastapizzatest.presentation.screens.CartScreen
-import com.example.pastapizzatest.presentation.screens.MenuScreen
 import com.example.pastapizzatest.presentation.screens.ProfileScreen
 import com.example.pastapizzatest.presentation.screens.common_ui.MyBottomNavigation
+import com.example.pastapizzatest.presentation.screens.menu.MenuScreen
 import com.example.pastapizzatest.presentation.theme.PastaPizzaTestTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
