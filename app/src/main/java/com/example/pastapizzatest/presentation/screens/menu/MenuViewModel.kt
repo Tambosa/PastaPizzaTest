@@ -21,14 +21,18 @@ class MenuViewModel @Inject constructor(
     fun getMenu() {
         viewModelScope.launch {
             _menuState.value = _menuState.value.copy(isLoading = true)
-            _menuState.value = MenuState(
+            _menuState.value = _menuState.value.copy(
                 isLoading = false,
-                pastaList = pastaRepo.getPasta(),
+                pastaList = pastaRepo.getPasta()
             )
         }
     }
 
-    enum class FoodCategories(val value: Int) {
+    fun setSelectedCategory(selected: FoodCategories) {
+        _menuState.value = _menuState.value.copy(selectedCategory = selected)
+    }
+
+    enum class FoodCategories(val resId: Int) {
         PASTA(R.string.pasta),
         COMBO(R.string.combo),
         DESSERTS(R.string.desserts),
